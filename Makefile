@@ -7,7 +7,7 @@ BUILD := ./build
 OBJ_DIR := $(BUILD)/objects
 APP_DIR := $(BUILD)/apps
 
-TARGET := cpplox
+TARGET := hello
 
 SRC := \
   $(wildcard src/*.cpp)
@@ -23,7 +23,7 @@ $(OBJ_DIR)/%.o: %.cpp
 
 $(APP_DIR)/$(TARGET): $(OBJECTS)
 	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) -o $(APP_DIR)/$(TARGET)
+	$(CXX) $(CXXFLAGS) -o $(APP_DIR)/$(TARGET) $^
 
 -include $(DEPENDENCIES)
 
@@ -47,3 +47,9 @@ clean:
 
 lox_tests: debug
 	dart tool/bin/test.dart clox --interpreter $(APP_DIR)/$(TARGET)
+
+run_debug: debug
+	$(APP_DIR)/$(TARGET)
+
+run_release: release
+	$(APP_DIR)/$(TARGET)
