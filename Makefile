@@ -7,7 +7,7 @@ BUILD := ./build
 OBJ_DIR := $(BUILD)/objects
 APP_DIR := $(BUILD)/apps
 
-TARGET := hello
+TARGET := main
 
 SRC := \
   $(wildcard src/*.cpp)
