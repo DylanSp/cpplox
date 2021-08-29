@@ -3,6 +3,12 @@
 
 void hello::hello_world()
 {
+#ifdef DEBUG
+  std::cout << "DEBUG defined!\n";
+#else
+  std::cout << "DEBUG undefined!\n";
+#endif
+
   std::cout << "Hello!\n";
 }
 

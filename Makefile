@@ -34,7 +34,7 @@ build:
 	@mkdir -p $(APP_DIR)
 	@mkdir -p $(OBJ_DIR)
 
-# -DDEBUG makes sure DEBUG macro is defined
+# -DDEBUG defines DEBUG macro
 debug: CXXFLAGS += -g -DDEBUG
 debug: all
 
@@ -48,8 +48,8 @@ clean:
 lox_tests: debug
 	dart tool/bin/test.dart clox --interpreter $(APP_DIR)/$(TARGET)
 
-run_debug: debug
+run_debug: clean debug
 	$(APP_DIR)/$(TARGET)
 
-run_release: release
+run_release: clean release
 	$(APP_DIR)/$(TARGET)
