@@ -28,7 +28,7 @@ $(APP_DIR)/$(TARGET): $(OBJECTS)
 -include $(DEPENDENCIES)
 
 
-.PHONY: all build clean debug release lox_tests
+.PHONY: all build clean debug release lox_tests run_debug run_release
 
 build:
 	@mkdir -p $(APP_DIR)
