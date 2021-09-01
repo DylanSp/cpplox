@@ -1,6 +1,6 @@
 # cargo-culted from https://www.partow.net/programming/makefile/index.html
 
-CXX := clang++-5.0
+CXX := clang++-8
 CXXFLAGS := -pedantic-errors -Wall -Wextra --std=c++17
 
 BUILD := ./build
