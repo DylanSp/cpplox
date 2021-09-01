@@ -2,6 +2,7 @@
 
 #include "chunk.hpp"
 #include "value.hpp"
+#include <functional>
 #include <stack>
 
 namespace lox {
@@ -21,6 +22,9 @@ private:
   InterpretResult run();
   uint8_t readByte();
   Value readConstant();
+
+  void assembleBinaryOperation(
+      std::function<lox::Value(lox::Value, lox::Value)>);
 
   // debugging functionality
   void printStackContents();

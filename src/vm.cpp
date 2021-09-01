@@ -1,5 +1,6 @@
 #include "vm.hpp"
 #include "chunk.hpp"
+#include <deque>
 #include <iostream>
 
 using lox::VM;
@@ -22,16 +23,16 @@ lox::InterpretResult VM::interpret(Chunk incomingChunk) {
 // prints stack from bottom to top
 void VM::printStackContents() {
   std::cout << "          ";
-  std::vector<Value> tempStack;
+  std::deque<Value> tempStack;
 
   while (!stack.empty()) {
-    tempStack.push_back(stack.top());
+    tempStack.push_front(stack.top());
     stack.pop();
   }
 
-  for (auto it = tempStack.rbegin(); it != tempStack.rend(); it++) {
+  for (auto &it : tempStack) {
     std::cout << "[ ";
-    printValue(*it);
+    printValue(it);
     std::cout << " ]";
   }
   std::cout << "\n";
@@ -64,6 +65,38 @@ lox::InterpretResult VM::run() {
       stack.push(constantValue);
       break;
     }
+    case OpCode::OP_NEGATE: {
+      auto top = stack.top();
+      stack.pop();
+      stack.push(negateValue(top));
+      break;
+    }
+    case OpCode::OP_ADD: {
+      assembleBinaryOperation(addValues);
+      break;
+    }
+    case OpCode::OP_SUBTRACT: {
+      assembleBinaryOperation(subtractValues);
+      break;
+    }
+    case OpCode::OP_MULTIPLY: {
+      assembleBinaryOperation(multiplyValues);
+      break;
+    }
+    case OpCode::OP_DIVIDE: {
+      assembleBinaryOperation(divideValues);
+      break;
+    }
     }
   }
+}
+
+void VM::assembleBinaryOperation(
+    std::function<lox::Value(lox::Value, lox::Value)> binaryOp) {
+  auto rhs = stack.top();
+  stack.pop();
+  auto lhs = stack.top();
+  stack.pop();
+  auto result = binaryOp(lhs, rhs);
+  stack.push(result);
 }

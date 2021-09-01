@@ -11,6 +11,11 @@ class OpCode {
 public:
   static constexpr uint8_t OP_CONSTANT = 0;
   static constexpr uint8_t OP_RETURN = 1;
+  static constexpr uint8_t OP_NEGATE = 2;
+  static constexpr uint8_t OP_ADD = 3;
+  static constexpr uint8_t OP_SUBTRACT = 4;
+  static constexpr uint8_t OP_MULTIPLY = 5;
+  static constexpr uint8_t OP_DIVIDE = 6;
 };
 
 class Chunk {
