@@ -12,10 +12,14 @@ private:
   std::vector<uint8_t>
       code; // stores opcodes AND operands; unsure what type this should be
   std::vector<Value> constantPool;
+  std::vector<int>
+      lineNumbers; // nth entry of this is the line number for nth byte of
+                   // this.code; stored as a separate array to avoid messing
+                   // with CPU cache of bytecode data
 
 public:
-  void write(OpCode opcode);
-  void write(uint8_t byte);
+  void write(OpCode opcode, int lineNumber);
+  void write(uint8_t byte, int lineNumber);
   int addConstant(Value constant);
 
   // debugging functionality

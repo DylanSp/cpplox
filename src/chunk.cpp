@@ -5,11 +5,15 @@
 
 using lox::Chunk;
 
-void Chunk::write(OpCode opcode) {
+void Chunk::write(OpCode opcode, int lineNumber) {
   this->code.push_back(static_cast<uint8_t>(opcode));
+  this->lineNumbers.push_back(lineNumber);
 }
 
-void Chunk::write(uint8_t byte) { this->code.push_back(byte); }
+void Chunk::write(uint8_t byte, int lineNumber) {
+  this->code.push_back(byte);
+  this->lineNumbers.push_back(lineNumber);
+}
 
 // returns the index of the added constant, so we can look it up later
 // note: this may indicate we want a different data structure
@@ -34,7 +38,18 @@ int Chunk::disassembleInstruction(int offset) {
 
   // byte offset of the instruction within the chunk
   std::cout << std::setfill('0') << std::setw(4) << offset << " ";
+  std::cout.flags(f);
 
+  // source line number that instruction came from
+  if (offset > 0 &&
+      // if same line # as previous instruction
+      lineNumbers.at(offset) ==
+          lineNumbers.at(offset - 1))
+  {
+    std::cout << "   | ";
+  } else {
+    std::cout << std::setw(4) << lineNumbers.at(offset) << " ";
+  }
   std::cout.flags(f);
 
   auto instruction = this->code.at(offset);
