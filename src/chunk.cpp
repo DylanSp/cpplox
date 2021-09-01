@@ -5,21 +5,16 @@
 
 using lox::Chunk;
 
-void Chunk::write(OpCode opcode, int lineNumber) {
-  this->code.push_back(static_cast<uint8_t>(opcode));
-  this->lineNumbers.push_back(lineNumber);
-}
-
 void Chunk::write(uint8_t byte, int lineNumber) {
-  this->code.push_back(byte);
-  this->lineNumbers.push_back(lineNumber);
+  code.push_back(byte);
+  lineNumbers.push_back(lineNumber);
 }
 
 // returns the index of the added constant, so we can look it up later
 // note: this may indicate we want a different data structure
 int Chunk::addConstant(Value constant) {
-  this->constantPool.push_back(constant);
-  return this->constantPool.size() - 1;
+  constantPool.push_back(constant);
+  return constantPool.size() - 1;
 }
 
 void Chunk::disassemble(std::string chunkName) {
@@ -28,7 +23,7 @@ void Chunk::disassemble(std::string chunkName) {
 
   // instructions can have different sizes, so we update offset with the size of
   // the last instruction disassembled note: not married to this
-  for (auto offset = 0; offset < this->code.size();) {
+  for (auto offset = 0; offset < code.size();) {
     offset = disassembleInstruction(offset);
   }
 }
@@ -43,9 +38,7 @@ int Chunk::disassembleInstruction(int offset) {
   // source line number that instruction came from
   if (offset > 0 &&
       // if same line # as previous instruction
-      lineNumbers.at(offset) ==
-          lineNumbers.at(offset - 1))
-  {
+      lineNumbers.at(offset) == lineNumbers.at(offset - 1)) {
     std::cout << "   | ";
   } else {
     std::cout << std::setw(4) << lineNumbers.at(offset) << " ";
@@ -54,12 +47,12 @@ int Chunk::disassembleInstruction(int offset) {
 
   auto instruction = this->code.at(offset);
   switch (instruction) {
-  case static_cast<uint8_t>(OpCode::OP_CONSTANT):
+  case OpCode::OP_CONSTANT:
     return disassembleConstantInstruction("OP_CONSTANT", offset);
-  case static_cast<uint8_t>(OpCode::OP_RETURN):
+  case OpCode::OP_RETURN:
     return disassembleSimpleInstruction("OP_RETURN", offset);
   default:
-    std::cout << "Unknown opcode " << static_cast<uint8_t>(instruction) << "\n";
+    std::cout << "Unknown opcode " << instruction << "\n";
     return offset + 1;
   }
 }

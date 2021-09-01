@@ -5,12 +5,16 @@
 #include <vector>
 
 namespace lox {
-enum class OpCode : uint8_t { OP_CONSTANT, OP_RETURN };
+
+class OpCode {
+public:
+  static constexpr uint8_t OP_CONSTANT = 0;
+  static constexpr uint8_t OP_RETURN = 1;
+};
 
 class Chunk {
 private:
-  std::vector<uint8_t>
-      code; // stores opcodes AND operands; unsure what type this should be
+  std::vector<uint8_t> code; // stores opcodes AND operands;
   std::vector<Value> constantPool;
   std::vector<int>
       lineNumbers; // nth entry of this is the line number for nth byte of
@@ -18,7 +22,6 @@ private:
                    // with CPU cache of bytecode data
 
 public:
-  void write(OpCode opcode, int lineNumber);
   void write(uint8_t byte, int lineNumber);
   int addConstant(Value constant);
 
