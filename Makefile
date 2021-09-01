@@ -28,7 +28,7 @@ $(APP_DIR)/$(TARGET): $(OBJECTS)
 -include $(DEPENDENCIES)
 
 
-.PHONY: all build clean debug release lox_tests run_debug run_release
+.PHONY: all build clean debug release asan lox_tests run_debug run_release
 
 build:
 	@mkdir -p $(APP_DIR)
@@ -40,6 +40,9 @@ debug: all
 
 release: CXXFLAGS += -O3
 release: all
+
+asan: CXXFLAGS += -fsanitize=address -fno-omit-frame-pointer
+asan: release
 
 clean:
 	-@rm -rvf $(OBJ_DIR)/*
