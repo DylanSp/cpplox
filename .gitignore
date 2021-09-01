@@ -37,3 +37,6 @@ build/
 # Dart stuff (used by tools)
 tool/.dart_tool
 tool/.packages
+
+# CLion config
+.idea
