@@ -1,21 +1,17 @@
 #include "value.hpp"
 #include <functional>
 
+// taken from https://www.cppstories.com/2018/09/visit-variants/ to allow using
+// lambdas inside std::visit calls
 template <class... Ts> struct overload : Ts... { using Ts::operator()...; };
 template <class... Ts> overload(Ts...) -> overload<Ts...>;
 
-struct ValuePrinter {
-  void operator()(double d) { std::cout << d; }
-};
-
-void lox::printValue(Value val) { std::visit(ValuePrinter{}, val); }
-
-struct ValueNegator {
-  double operator()(double d) { return -1 * d; }
-};
+void lox::printValue(Value val) {
+  std::visit(overload{[](double d) { std::cout << d; }}, val);
+}
 
 lox::Value lox::negateValue(Value val) {
-  return std::visit(ValueNegator{}, val);
+  return std::visit(overload{[](double d) { return -1 * d; }}, val);
 };
 
 std::function<lox::Value(lox::Value, lox::Value)>
