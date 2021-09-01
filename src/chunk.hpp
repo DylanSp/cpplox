@@ -26,10 +26,10 @@ public:
   int addConstant(Value constant);
 
   // debugging functionality
-  void disassemble(std::string chunkName);
+  void disassemble(const std::string &chunkName);
   int disassembleInstruction(int offset);
-  int disassembleSimpleInstruction(std::string name, int offset);
-  int disassembleConstantInstruction(std::string name, int offset);
+  int disassembleSimpleInstruction(const std::string &name, int offset);
+  int disassembleConstantInstruction(const std::string &name, int offset);
 };
 
 } // namespace lox

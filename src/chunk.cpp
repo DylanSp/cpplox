@@ -17,7 +17,7 @@ int Chunk::addConstant(Value constant) {
   return constantPool.size() - 1;
 }
 
-void Chunk::disassemble(std::string chunkName) {
+void Chunk::disassemble(const std::string &chunkName) {
   std::cout << "== " << chunkName << " =="
             << "\n";
 
@@ -58,13 +58,13 @@ int Chunk::disassembleInstruction(int offset) {
 }
 
 // for disassembling zero-operand (one-byte) simple instructions
-int Chunk::disassembleSimpleInstruction(std::string name, int offset) {
+int Chunk::disassembleSimpleInstruction(const std::string &name, int offset) {
   std::cout << name << "\n";
   return offset + 1;
 }
 
 // for disassembling one-operand (two-byte) constant instructions
-int Chunk::disassembleConstantInstruction(std::string name, int offset) {
+int Chunk::disassembleConstantInstruction(const std::string &name, int offset) {
   auto constantIndex = code.at(offset + 1);
   std::cout << name << "@ "
             << static_cast<int>(
