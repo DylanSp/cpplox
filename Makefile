@@ -45,7 +45,7 @@ clean:
 	-@rm -rvf $(OBJ_DIR)/*
 	-@rm -rvf $(APP_DIR)/*
 
-lox_tests: debug
+lox_tests: clean debug
 	dart tool/bin/test.dart clox --interpreter $(APP_DIR)/$(TARGET)
 
 run_debug: clean debug
