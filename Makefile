@@ -35,7 +35,7 @@ build:
 	@mkdir -p $(OBJ_DIR)
 
 # -DDEBUG defines DEBUG macro
-debug: CXXFLAGS += -g -DDEBUG
+debug: CXXFLAGS += -g -DDEBUG -DDEBUG_TRACE_EXECUTION
 debug: all
 
 release: CXXFLAGS += -O3
