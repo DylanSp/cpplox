@@ -2,8 +2,10 @@
 
 #include "chunk.hpp"
 #include "value.hpp"
+#include "compiler.hpp"
 #include <functional>
 #include <stack>
+#include <string>
 
 namespace lox {
 
@@ -11,6 +13,8 @@ enum class InterpretResult { OK, COMPILE_ERROR, RUNTIME_ERROR };
 
 class VM {
 private:
+  lox::Compiler compiler;
+
   lox::Chunk codeChunk;
 
   // points to the instruction _about to be executed_
@@ -30,7 +34,7 @@ private:
   void printStackContents();
 
 public:
-  InterpretResult interpret(Chunk incomingChunk);
+  InterpretResult interpret(std::string source);
 };
 
 } // namespace lox

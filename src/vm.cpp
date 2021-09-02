@@ -2,6 +2,7 @@
 #include "chunk.hpp"
 #include <deque>
 #include <iostream>
+#include <string>
 
 using lox::VM;
 
@@ -13,11 +14,16 @@ uint8_t VM::readByte() {
 
 lox::Value VM::readConstant() { return codeChunk.constantPool.at(readByte()); }
 
-lox::InterpretResult VM::interpret(Chunk incomingChunk) {
+lox::InterpretResult VM::interpret(std::string source) {
+  compiler.compile(source);
+  return InterpretResult::OK;
+
+  /*
   codeChunk = incomingChunk;
   instructionPointer = 0;
 
   return run();
+   */
 }
 
 // prints stack from bottom to top

@@ -1,36 +1,51 @@
-#include "chunk.hpp"
 #include "vm.hpp"
+#include <cstdlib>
+#include <fstream>
+#include <iostream>
+#include <sstream>
 
-int main(int argc, const char *argv[]) {
+void repl() {
   lox::VM vm;
 
-  lox::Chunk chunk;
+  std::string inputLine;
+  while (std::getline(std::cin, inputLine)) {
+    vm.interpret(inputLine);
+  }
 
-  auto sampleLineNumber = 123;
+  std::cout << "\n";
+}
 
-  auto constantAddress12 = chunk.addConstant(1.2);
-  chunk.write(lox::OpCode::OP_CONSTANT, sampleLineNumber);
-  chunk.write(constantAddress12, sampleLineNumber);
+std::string readFile(const std::string &filename) {
+  std::ifstream readStream(filename);
+  std::stringstream buffer;
+  buffer << readStream.rdbuf();
+  return buffer.str();
+}
 
-  auto constantAddress34 = chunk.addConstant(3.4);
-  chunk.write(lox::OpCode::OP_CONSTANT, sampleLineNumber);
-  chunk.write(constantAddress34, sampleLineNumber);
+void runFile(const std::string &filename) {
+  auto source = readFile(filename);
 
-  chunk.write(lox::OpCode::OP_ADD, sampleLineNumber);
+  lox::VM vm;
+  auto result = vm.interpret(source);
 
-  auto constantAddress56 = chunk.addConstant(5.6);
-  chunk.write(lox::OpCode::OP_CONSTANT, sampleLineNumber);
-  chunk.write(constantAddress56, sampleLineNumber);
+  if (result == lox::InterpretResult::COMPILE_ERROR) {
+    std::exit(65);
+  }
 
-  chunk.write(lox::OpCode::OP_DIVIDE, sampleLineNumber);
+  if (result == lox::InterpretResult::RUNTIME_ERROR) {
+    std::exit(70);
+  }
+}
 
-  chunk.write(lox::OpCode::OP_NEGATE, sampleLineNumber);
-
-  chunk.write(lox::OpCode::OP_RETURN, sampleLineNumber);
-
-  chunk.disassemble("test chunk");
-
-  vm.interpret(chunk);
+int main(int argc, const char *argv[]) {
+  if (argc == 1) {
+    repl();
+  } else if (argc == 2) {
+    runFile(argv[1]);
+  } else {
+    std::cerr << "Usage: clox [path]\n";
+    exit(64);
+  }
 
   return 0;
 }
