@@ -14,16 +14,16 @@ uint8_t VM::readByte() {
 
 lox::Value VM::readConstant() { return codeChunk.constantPool.at(readByte()); }
 
-lox::InterpretResult VM::interpret(std::string source) {
-  compiler.compile(source);
-  return InterpretResult::OK;
+lox::InterpretResult VM::interpret(const std::string &source) {
+  auto possibleChunk = compiler.compile(source);
+  if (!possibleChunk) {
+    return InterpretResult::COMPILE_ERROR;
+  }
 
-  /*
-  codeChunk = incomingChunk;
+  codeChunk = possibleChunk.value();
   instructionPointer = 0;
 
   return run();
-   */
 }
 
 // prints stack from bottom to top

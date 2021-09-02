@@ -7,9 +7,11 @@
 void repl() {
   lox::VM vm;
 
+  std::cout << "> ";
   std::string inputLine;
   while (std::getline(std::cin, inputLine)) {
     vm.interpret(inputLine);
+    std::cout << "> ";
   }
 
   std::cout << "\n";

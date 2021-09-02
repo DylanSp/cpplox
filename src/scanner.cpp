@@ -111,7 +111,13 @@ void Scanner::skipWhitespace() {
   }
 }
 
-char Scanner::peek() { return source.at(currentPosition); }
+char Scanner::peek() {
+  if (currentPosition < source.size()) {
+    return source.at(currentPosition);
+  }
+
+  return '\0';
+}
 
 char Scanner::peekNext() {
   if (isAtEnd()) {

@@ -86,7 +86,7 @@ private:
                          TokenType type);
 
 public:
-  explicit Scanner(std::string_view source);
+  explicit Scanner(std::string_view source = "");
 
   Token scanToken();
 };

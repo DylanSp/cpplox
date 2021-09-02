@@ -1,8 +1,8 @@
 #pragma once
 
 #include "chunk.hpp"
-#include "value.hpp"
 #include "compiler.hpp"
+#include "value.hpp"
 #include <functional>
 #include <stack>
 #include <string>
@@ -34,7 +34,7 @@ private:
   void printStackContents();
 
 public:
-  InterpretResult interpret(std::string source);
+  InterpretResult interpret(const std::string &source);
 };
 
 } // namespace lox
